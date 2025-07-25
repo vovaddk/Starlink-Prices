@@ -308,7 +308,6 @@ html = f"""
         position: relative; 
         font-size: 1em; 
         display: flex; 
-        justify-content: space-between; 
         align-items: center; 
         border-bottom: 1px solid #36393e; 
       }}
