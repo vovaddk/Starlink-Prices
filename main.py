@@ -1,6 +1,6 @@
 import json
 
-# ISO2 коди європейських країн + UA (уточнюй список під свої задачі)
+# ISO2 коди європейських країн + UA
 europe_codes = [
     'AL', 'AD', 'AT', 'BY', 'BE', 'BA', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE',
     'FO', 'FI', 'FR', 'DE', 'GI', 'GR', 'VA', 'HU', 'IS', 'IE', 'IT', 'XK', 'LV',
@@ -24,12 +24,13 @@ country_names = {
     "SE": "Sweden", "CH": "Switzerland", "UA": "Ukraine", "GB": "United Kingdom"
 }
 
+# Завантаження JSON-даних
 with open('landing-prices.json', 'r', encoding='utf-8') as f:
-    data = json.load(f)
+    json_data = json.load(f)
 
 unique = {}
 
-for block in data:
+for block in json_data:
     for country in block['countries']:
         code = country.get('regionCode', '')
         if code not in europe_codes:
@@ -48,18 +49,23 @@ for block in data:
                 standard_price = price
 
         if code and code not in unique:
-            unique[code] = {'name': name, 'mini': mini_price, 'standard': standard_price}
+            unique[code] = {
+                'name': name,
+                'mini': mini_price,
+                'standard': standard_price
+            }
 
-# -- Адаптивні рядки (data-label для mobile) --
+# -- Формування HTML-рядків для таблиці (!!! тут і була помилка!!!)
 rows = [
     f"""<tr>
-        <td data-label="Country">{data['name']}</td>
-        <td data-label="Mini Price">{data['mini'] if data['mini'] is not None else ''}</td>
-        <td data-label="Standard Price">{data['standard'] if data['standard'] is not None else ''}</td>
+        <td data-label="Country">{item['name']}</td>
+        <td data-label="Mini Price" class="price" data-eur="{item['mini'] or ''}">{item['mini'] if item['mini'] is not None else ''}</td>
+        <td data-label="Standard Price" class="price" data-eur="{item['standard'] or ''}">{item['standard'] if item['standard'] is not None else ''}</td>
     </tr>"""
-    for code, data in sorted(unique.items(), key=lambda x: x[1]['name'])
+    for code, item in sorted(unique.items(), key=lambda x: x[1]['name'])
 ]
 
+# -- Основний HTML
 html = f"""
 <!DOCTYPE html>
 <html lang="en">
@@ -77,6 +83,25 @@ html = f"""
     }}
     h1 {{
       text-align: center;
+    }}
+    .converter {{
+      max-width: 800px;
+      margin: 20px auto;
+      text-align: center;
+    }}
+    select {{
+      padding: 8px;
+      font-size: 1em;
+      border-radius: 5px;
+      background: #23272a;
+      color: #eee;
+      border: 1px solid #36393e;
+    }}
+    .error {{
+      color: #ff5555;
+      font-size: 0.9em;
+      margin-top: 10px;
+      display: none;
     }}
     table {{
       border-collapse: collapse;
@@ -106,6 +131,16 @@ html = f"""
       h1 {{
         font-size: 1.22em;
         margin-bottom: 14px;
+      }}
+      .converter {{
+        margin: 10px auto;
+      }}
+      select {{
+        width: 100%;
+        max-width: 200px;
+      }}
+      .error {{
+        font-size: 0.8em;
       }}
       table, thead, tbody, th, td, tr {{
         display: block;
@@ -140,6 +175,22 @@ html = f"""
 </head>
 <body>
   <h1>Starlink Prices (Europe & Ukraine)</h1>
+  <div class="converter">
+    <label for="currency">Select Currency: </label>
+    <select id="currency" onchange="convertCurrency()">
+      <option value="EUR">EUR</option>
+      <option value="USD">USD</option>
+      <option value="GBP">GBP</option>
+      <option value="UAH">UAH</option>
+      <option value="PLN">PLN</option>
+      <option value="CZK">CZK</option>
+      <option value="SEK">SEK</option>
+      <option value="DKK">DKK</option>
+      <option value="NOK">NOK</option>
+      <option value="CHF">CHF</option>
+    </select>
+    <div id="error-message" class="error">Failed to load exchange rates. Using default prices in EUR.</div>
+  </div>
   <table>
     <thead>
       <tr>
@@ -152,6 +203,72 @@ html = f"""
       {''.join(rows)}
     </tbody>
   </table>
+  <script>
+    // Початкові фіктивні курси (як резервні)
+    let exchangeRates = {{
+      'EUR': 1,
+      'USD': 1.09,
+      'GBP': 0.85,
+      'UAH': 45.0,
+      'PLN': 4.30,
+      'CZK': 25.4,
+      'SEK': 11.5,
+      'DKK': 7.46,
+      'NOK': 11.8,
+      'CHF': 0.95
+    }};
+
+    async function fetchExchangeRates() {{
+      try {{
+        const response = await fetch('https://v6.exchangerate-api.com/v6/5367321dfae0db753504e8c2/latest/EUR');
+        if (!response.ok) {{
+          throw new Error(`HTTP error! Status: ${{response.status}}, Message: ${{response.statusText}}`);
+        }}
+        const data = await response.json();
+        if (data.result === 'error') {{
+          throw new Error(`API error: ${{data['error-type']}}`);
+        }}
+        console.log('API response:', data); // Логування повної відповіді API
+        return {{
+          'EUR': 1,
+          'USD': data.rates.USD || exchangeRates.USD,
+          'GBP': data.rates.GBP || exchangeRates.GBP,
+          'UAH': data.rates.UAH || exchangeRates.UAH,
+          'PLN': data.rates.PLN || exchangeRates.PLN,
+          'CZK': data.rates.CZK || exchangeRates.CZK,
+          'SEK': data.rates.SEK || exchangeRates.SEK,
+          'DKK': data.rates.DKK || exchangeRates.DKK,
+          'NOK': data.rates.NOK || exchangeRates.NOK,
+          'CHF': data.rates.CHF || exchangeRates.CHF
+        }};
+      }} catch (error) {{
+        console.error('Error fetching exchange rates:', error.message);
+        document.getElementById('error-message').style.display = 'block';
+        return exchangeRates;
+      }}
+    }}
+
+    async function convertCurrency() {{
+      const currency = document.getElementById('currency').value;
+      const rates = await fetchExchangeRates();
+      console.log('Using exchange rates:', rates); // Логування курсів, які використовуються
+      const rate = rates[currency];
+      const prices = document.querySelectorAll('.price');
+
+      prices.forEach(cell => {{
+        const eurPrice = cell.getAttribute('data-eur');
+        if (eurPrice && !isNaN(parseFloat(eurPrice))) {{
+          const convertedPrice = (parseFloat(eurPrice) * rate).toFixed(2);
+          cell.textContent = `${{convertedPrice}} ${{currency}}`;
+        }} else {{
+          cell.textContent = '';
+        }}
+      }});
+    }}
+
+    // Викликати конвертацію при завантаженні сторінки
+    convertCurrency();
+  </script>
 </body>
 </html>
 """
@@ -159,4 +276,4 @@ html = f"""
 with open("index.html", "w", encoding="utf-8") as f:
     f.write(html)
 
-print("Готово! Файл starlink_prices.html створено.")
+print("Готово! Файл index.html створено з валідним API-ключем і виправленням змінної.")

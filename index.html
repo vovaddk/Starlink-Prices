@@ -16,6 +16,25 @@
     h1 {
       text-align: center;
     }
+    .converter {
+      max-width: 800px;
+      margin: 20px auto;
+      text-align: center;
+    }
+    select {
+      padding: 8px;
+      font-size: 1em;
+      border-radius: 5px;
+      background: #23272a;
+      color: #eee;
+      border: 1px solid #36393e;
+    }
+    .error {
+      color: #ff5555;
+      font-size: 0.9em;
+      margin-top: 10px;
+      display: none;
+    }
     table {
       border-collapse: collapse;
       width: 100%;
@@ -44,6 +63,16 @@
       h1 {
         font-size: 1.22em;
         margin-bottom: 14px;
+      }
+      .converter {
+        margin: 10px auto;
+      }
+      select {
+        width: 100%;
+        max-width: 200px;
+      }
+      .error {
+        font-size: 0.8em;
       }
       table, thead, tbody, th, td, tr {
         display: block;
@@ -78,6 +107,22 @@
 </head>
 <body>
   <h1>Starlink Prices (Europe & Ukraine)</h1>
+  <div class="converter">
+    <label for="currency">Select Currency: </label>
+    <select id="currency" onchange="convertCurrency()">
+      <option value="EUR">EUR</option>
+      <option value="USD">USD</option>
+      <option value="GBP">GBP</option>
+      <option value="UAH">UAH</option>
+      <option value="PLN">PLN</option>
+      <option value="CZK">CZK</option>
+      <option value="SEK">SEK</option>
+      <option value="DKK">DKK</option>
+      <option value="NOK">NOK</option>
+      <option value="CHF">CHF</option>
+    </select>
+    <div id="error-message" class="error">Failed to load exchange rates. Using default prices in EUR.</div>
+  </div>
   <table>
     <thead>
       <tr>
@@ -89,158 +134,224 @@
     <tbody>
       <tr>
         <td data-label="Country">Albania</td>
-        <td data-label="Mini Price">22050.0</td>
-        <td data-label="Standard Price">34900.0</td>
+        <td data-label="Mini Price" class="price" data-eur="22050.0">22050.0</td>
+        <td data-label="Standard Price" class="price" data-eur="34900.0">34900.0</td>
     </tr><tr>
         <td data-label="Country">Austria</td>
-        <td data-label="Mini Price">225.0</td>
-        <td data-label="Standard Price">349.0</td>
+        <td data-label="Mini Price" class="price" data-eur="225.0">225.0</td>
+        <td data-label="Standard Price" class="price" data-eur="349.0">349.0</td>
     </tr><tr>
         <td data-label="Country">Belgium</td>
-        <td data-label="Mini Price">225.0</td>
-        <td data-label="Standard Price">349.0</td>
+        <td data-label="Mini Price" class="price" data-eur="225.0">225.0</td>
+        <td data-label="Standard Price" class="price" data-eur="349.0">349.0</td>
     </tr><tr>
         <td data-label="Country">Bulgaria</td>
-        <td data-label="Mini Price">440.0</td>
-        <td data-label="Standard Price">680.0</td>
+        <td data-label="Mini Price" class="price" data-eur="440.0">440.0</td>
+        <td data-label="Standard Price" class="price" data-eur="680.0">680.0</td>
     </tr><tr>
         <td data-label="Country">Croatia</td>
-        <td data-label="Mini Price">225.0</td>
-        <td data-label="Standard Price">349.0</td>
+        <td data-label="Mini Price" class="price" data-eur="225.0">225.0</td>
+        <td data-label="Standard Price" class="price" data-eur="349.0">349.0</td>
     </tr><tr>
         <td data-label="Country">Cyprus</td>
-        <td data-label="Mini Price">299.0</td>
-        <td data-label="Standard Price">349.0</td>
+        <td data-label="Mini Price" class="price" data-eur="299.0">299.0</td>
+        <td data-label="Standard Price" class="price" data-eur="349.0">349.0</td>
     </tr><tr>
         <td data-label="Country">Czechia</td>
-        <td data-label="Mini Price">5550.0</td>
-        <td data-label="Standard Price">8800.0</td>
+        <td data-label="Mini Price" class="price" data-eur="5550.0">5550.0</td>
+        <td data-label="Standard Price" class="price" data-eur="8800.0">8800.0</td>
     </tr><tr>
         <td data-label="Country">Denmark</td>
-        <td data-label="Mini Price">1679.0</td>
-        <td data-label="Standard Price">1740.0</td>
+        <td data-label="Mini Price" class="price" data-eur="1679.0">1679.0</td>
+        <td data-label="Standard Price" class="price" data-eur="1740.0">1740.0</td>
     </tr><tr>
         <td data-label="Country">Estonia</td>
-        <td data-label="Mini Price">225.0</td>
-        <td data-label="Standard Price">349.0</td>
+        <td data-label="Mini Price" class="price" data-eur="225.0">225.0</td>
+        <td data-label="Standard Price" class="price" data-eur="349.0">349.0</td>
     </tr><tr>
         <td data-label="Country">Faroe Islands</td>
-        <td data-label="Mini Price">1679.0</td>
-        <td data-label="Standard Price">2800.0</td>
+        <td data-label="Mini Price" class="price" data-eur="1679.0">1679.0</td>
+        <td data-label="Standard Price" class="price" data-eur="2800.0">2800.0</td>
     </tr><tr>
         <td data-label="Country">Finland</td>
-        <td data-label="Mini Price"></td>
-        <td data-label="Standard Price">229.0</td>
+        <td data-label="Mini Price" class="price" data-eur=""></td>
+        <td data-label="Standard Price" class="price" data-eur="229.0">229.0</td>
     </tr><tr>
         <td data-label="Country">France</td>
-        <td data-label="Mini Price">225.0</td>
-        <td data-label="Standard Price">349.0</td>
+        <td data-label="Mini Price" class="price" data-eur="225.0">225.0</td>
+        <td data-label="Standard Price" class="price" data-eur="349.0">349.0</td>
     </tr><tr>
         <td data-label="Country">Germany</td>
-        <td data-label="Mini Price">225.0</td>
-        <td data-label="Standard Price">349.0</td>
+        <td data-label="Mini Price" class="price" data-eur="225.0">225.0</td>
+        <td data-label="Standard Price" class="price" data-eur="349.0">349.0</td>
     </tr><tr>
         <td data-label="Country">Greece</td>
-        <td data-label="Mini Price">225.0</td>
-        <td data-label="Standard Price">349.0</td>
+        <td data-label="Mini Price" class="price" data-eur="225.0">225.0</td>
+        <td data-label="Standard Price" class="price" data-eur="349.0">349.0</td>
     </tr><tr>
         <td data-label="Country">Hungary</td>
-        <td data-label="Mini Price">90150.0</td>
-        <td data-label="Standard Price">137000.0</td>
+        <td data-label="Mini Price" class="price" data-eur="90150.0">90150.0</td>
+        <td data-label="Standard Price" class="price" data-eur="137000.0">137000.0</td>
     </tr><tr>
         <td data-label="Country">Iceland</td>
-        <td data-label="Mini Price"></td>
-        <td data-label="Standard Price">52500.0</td>
+        <td data-label="Mini Price" class="price" data-eur=""></td>
+        <td data-label="Standard Price" class="price" data-eur="52500.0">52500.0</td>
     </tr><tr>
         <td data-label="Country">Ireland</td>
-        <td data-label="Mini Price">225.0</td>
-        <td data-label="Standard Price">349.0</td>
+        <td data-label="Mini Price" class="price" data-eur="225.0">225.0</td>
+        <td data-label="Standard Price" class="price" data-eur="349.0">349.0</td>
     </tr><tr>
         <td data-label="Country">Italy</td>
-        <td data-label="Mini Price">225.0</td>
-        <td data-label="Standard Price">349.0</td>
+        <td data-label="Mini Price" class="price" data-eur="225.0">225.0</td>
+        <td data-label="Standard Price" class="price" data-eur="349.0">349.0</td>
     </tr><tr>
         <td data-label="Country">Kosovo</td>
-        <td data-label="Mini Price">299.0</td>
-        <td data-label="Standard Price">349.0</td>
+        <td data-label="Mini Price" class="price" data-eur="299.0">299.0</td>
+        <td data-label="Standard Price" class="price" data-eur="349.0">349.0</td>
     </tr><tr>
         <td data-label="Country">Latvia</td>
-        <td data-label="Mini Price">225.0</td>
-        <td data-label="Standard Price">349.0</td>
+        <td data-label="Mini Price" class="price" data-eur="225.0">225.0</td>
+        <td data-label="Standard Price" class="price" data-eur="349.0">349.0</td>
     </tr><tr>
         <td data-label="Country">Lithuania</td>
-        <td data-label="Mini Price">225.0</td>
-        <td data-label="Standard Price">349.0</td>
+        <td data-label="Mini Price" class="price" data-eur="225.0">225.0</td>
+        <td data-label="Standard Price" class="price" data-eur="349.0">349.0</td>
     </tr><tr>
         <td data-label="Country">Luxembourg</td>
-        <td data-label="Mini Price">225.0</td>
-        <td data-label="Standard Price">349.0</td>
+        <td data-label="Mini Price" class="price" data-eur="225.0">225.0</td>
+        <td data-label="Standard Price" class="price" data-eur="349.0">349.0</td>
     </tr><tr>
         <td data-label="Country">Malta</td>
-        <td data-label="Mini Price">225.0</td>
-        <td data-label="Standard Price">349.0</td>
+        <td data-label="Mini Price" class="price" data-eur="225.0">225.0</td>
+        <td data-label="Standard Price" class="price" data-eur="349.0">349.0</td>
     </tr><tr>
         <td data-label="Country">Moldova</td>
-        <td data-label="Mini Price"></td>
-        <td data-label="Standard Price">7200.0</td>
+        <td data-label="Mini Price" class="price" data-eur=""></td>
+        <td data-label="Standard Price" class="price" data-eur="7200.0">7200.0</td>
     </tr><tr>
         <td data-label="Country">Netherlands</td>
-        <td data-label="Mini Price">225.0</td>
-        <td data-label="Standard Price">349.0</td>
+        <td data-label="Mini Price" class="price" data-eur="225.0">225.0</td>
+        <td data-label="Standard Price" class="price" data-eur="349.0">349.0</td>
     </tr><tr>
         <td data-label="Country">North Macedonia</td>
-        <td data-label="Mini Price"></td>
-        <td data-label="Standard Price">21500.0</td>
+        <td data-label="Mini Price" class="price" data-eur=""></td>
+        <td data-label="Standard Price" class="price" data-eur="21500.0">21500.0</td>
     </tr><tr>
         <td data-label="Country">Norway</td>
-        <td data-label="Mini Price"></td>
-        <td data-label="Standard Price">2680.0</td>
+        <td data-label="Mini Price" class="price" data-eur=""></td>
+        <td data-label="Standard Price" class="price" data-eur="2680.0">2680.0</td>
     </tr><tr>
         <td data-label="Country">Poland</td>
-        <td data-label="Mini Price">955.0</td>
-        <td data-label="Standard Price">1499.0</td>
+        <td data-label="Mini Price" class="price" data-eur="955.0">955.0</td>
+        <td data-label="Standard Price" class="price" data-eur="1499.0">1499.0</td>
     </tr><tr>
         <td data-label="Country">Portugal</td>
-        <td data-label="Mini Price">225.0</td>
-        <td data-label="Standard Price">349.0</td>
+        <td data-label="Mini Price" class="price" data-eur="225.0">225.0</td>
+        <td data-label="Standard Price" class="price" data-eur="349.0">349.0</td>
     </tr><tr>
         <td data-label="Country">Romania</td>
-        <td data-label="Mini Price">1139.0</td>
-        <td data-label="Standard Price">1699.0</td>
+        <td data-label="Mini Price" class="price" data-eur="1139.0">1139.0</td>
+        <td data-label="Standard Price" class="price" data-eur="1699.0">1699.0</td>
     </tr><tr>
         <td data-label="Country">Slovakia</td>
-        <td data-label="Mini Price">225.0</td>
-        <td data-label="Standard Price">349.0</td>
+        <td data-label="Mini Price" class="price" data-eur="225.0">225.0</td>
+        <td data-label="Standard Price" class="price" data-eur="349.0">349.0</td>
     </tr><tr>
         <td data-label="Country">Slovenia</td>
-        <td data-label="Mini Price">225.0</td>
-        <td data-label="Standard Price">349.0</td>
+        <td data-label="Mini Price" class="price" data-eur="225.0">225.0</td>
+        <td data-label="Standard Price" class="price" data-eur="349.0">349.0</td>
     </tr><tr>
         <td data-label="Country">Spain</td>
-        <td data-label="Mini Price">225.0</td>
-        <td data-label="Standard Price">349.0</td>
+        <td data-label="Mini Price" class="price" data-eur="225.0">225.0</td>
+        <td data-label="Standard Price" class="price" data-eur="349.0">349.0</td>
     </tr><tr>
         <td data-label="Country">Svalbard and Jan Mayen</td>
-        <td data-label="Mini Price"></td>
-        <td data-label="Standard Price">4000.0</td>
+        <td data-label="Mini Price" class="price" data-eur=""></td>
+        <td data-label="Standard Price" class="price" data-eur="4000.0">4000.0</td>
     </tr><tr>
         <td data-label="Country">Sweden</td>
-        <td data-label="Mini Price"></td>
-        <td data-label="Standard Price">2680.0</td>
+        <td data-label="Mini Price" class="price" data-eur=""></td>
+        <td data-label="Standard Price" class="price" data-eur="2680.0">2680.0</td>
     </tr><tr>
         <td data-label="Country">Switzerland</td>
-        <td data-label="Mini Price">0.0</td>
-        <td data-label="Standard Price">189.0</td>
+        <td data-label="Mini Price" class="price" data-eur="">0.0</td>
+        <td data-label="Standard Price" class="price" data-eur="189.0">189.0</td>
     </tr><tr>
         <td data-label="Country">Ukraine</td>
-        <td data-label="Mini Price"></td>
-        <td data-label="Standard Price">589.0</td>
+        <td data-label="Mini Price" class="price" data-eur=""></td>
+        <td data-label="Standard Price" class="price" data-eur="589.0">589.0</td>
     </tr><tr>
         <td data-label="Country">United Kingdom</td>
-        <td data-label="Mini Price">189.0</td>
-        <td data-label="Standard Price">299.0</td>
+        <td data-label="Mini Price" class="price" data-eur="189.0">189.0</td>
+        <td data-label="Standard Price" class="price" data-eur="299.0">299.0</td>
     </tr>
     </tbody>
   </table>
+  <script>
+    // Початкові фіктивні курси (як резервні)
+    let exchangeRates = {
+      'EUR': 1,
+      'USD': 1.09,
+      'GBP': 0.85,
+      'UAH': 45.0,
+      'PLN': 4.30,
+      'CZK': 25.4,
+      'SEK': 11.5,
+      'DKK': 7.46,
+      'NOK': 11.8,
+      'CHF': 0.95
+    };
+
+    async function fetchExchangeRates() {
+      try {
+        const response = await fetch('https://v6.exchangerate-api.com/v6/5367321dfae0db753504e8c2/latest/EUR');
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}, Message: ${response.statusText}`);
+        }
+        const data = await response.json();
+        if (data.result === 'error') {
+          throw new Error(`API error: ${data['error-type']}`);
+        }
+        console.log('API response:', data); // Логування повної відповіді API
+        return {
+          'EUR': 1,
+          'USD': data.rates.USD || exchangeRates.USD,
+          'GBP': data.rates.GBP || exchangeRates.GBP,
+          'UAH': data.rates.UAH || exchangeRates.UAH,
+          'PLN': data.rates.PLN || exchangeRates.PLN,
+          'CZK': data.rates.CZK || exchangeRates.CZK,
+          'SEK': data.rates.SEK || exchangeRates.SEK,
+          'DKK': data.rates.DKK || exchangeRates.DKK,
+          'NOK': data.rates.NOK || exchangeRates.NOK,
+          'CHF': data.rates.CHF || exchangeRates.CHF
+        };
+      } catch (error) {
+        console.error('Error fetching exchange rates:', error.message);
+        document.getElementById('error-message').style.display = 'block';
+        return exchangeRates;
+      }
+    }
+
+    async function convertCurrency() {
+      const currency = document.getElementById('currency').value;
+      const rates = await fetchExchangeRates();
+      console.log('Using exchange rates:', rates); // Логування курсів, які використовуються
+      const rate = rates[currency];
+      const prices = document.querySelectorAll('.price');
+
+      prices.forEach(cell => {
+        const eurPrice = cell.getAttribute('data-eur');
+        if (eurPrice && !isNaN(parseFloat(eurPrice))) {
+          const convertedPrice = (parseFloat(eurPrice) * rate).toFixed(2);
+          cell.textContent = `${convertedPrice} ${currency}`;
+        } else {
+          cell.textContent = '';
+        }
+      });
+    }
+
+    // Викликати конвертацію при завантаженні сторінки
+    convertCurrency();
+  </script>
 </body>
 </html>
