@@ -177,11 +177,7 @@
               "price": 389.0,
               "hardwareTag": "PRD_TAG-V4"
             },
-            "hardwareTags": [
-              "PRD_TAG-V4",
-              "PRD_TAG-V3",
-              "PRD_TAG-V2"
-            ]
+            "hardwareTags": ["PRD_TAG-V4", "PRD_TAG-V3", "PRD_TAG-V2"]
           }
         ],
         "dataBlocks": []
@@ -368,11 +364,7 @@
               "price": 549.0,
               "hardwareTag": "PRD_TAG-V4"
             },
-            "hardwareTags": [
-              "PRD_TAG-V4",
-              "PRD_TAG-V3",
-              "PRD_TAG-V2"
-            ]
+            "hardwareTags": ["PRD_TAG-V4", "PRD_TAG-V3", "PRD_TAG-V2"]
           }
         ],
         "dataBlocks": []
@@ -559,11 +551,7 @@
               "price": 389.0,
               "hardwareTag": "PRD_TAG-V4"
             },
-            "hardwareTags": [
-              "PRD_TAG-V4",
-              "PRD_TAG-V3",
-              "PRD_TAG-V2"
-            ]
+            "hardwareTags": ["PRD_TAG-V4", "PRD_TAG-V3", "PRD_TAG-V2"]
           }
         ],
         "dataBlocks": []
@@ -1214,11 +1202,7 @@
               "price": 499.0,
               "hardwareTag": "PRD_TAG-V4"
             },
-            "hardwareTags": [
-              "PRD_TAG-V4",
-              "PRD_TAG-V3",
-              "PRD_TAG-V2"
-            ]
+            "hardwareTags": ["PRD_TAG-V4", "PRD_TAG-V3", "PRD_TAG-V2"]
           }
         ],
         "dataBlocks": []
@@ -1456,11 +1440,7 @@
               "price": 549.0,
               "hardwareTag": "PRD_TAG-V4"
             },
-            "hardwareTags": [
-              "PRD_TAG-V4",
-              "PRD_TAG-V3",
-              "PRD_TAG-V2"
-            ]
+            "hardwareTags": ["PRD_TAG-V4", "PRD_TAG-V3", "PRD_TAG-V2"]
           }
         ],
         "dataBlocks": []
@@ -1509,11 +1489,7 @@
               "price": 549.0,
               "hardwareTag": "PRD_TAG-V4"
             },
-            "hardwareTags": [
-              "PRD_TAG-V4",
-              "PRD_TAG-V3",
-              "PRD_TAG-V2"
-            ]
+            "hardwareTags": ["PRD_TAG-V4", "PRD_TAG-V3", "PRD_TAG-V2"]
           }
         ],
         "dataBlocks": []
@@ -2521,11 +2497,7 @@
               "price": 799.0,
               "hardwareTag": "PRD_TAG-V4"
             },
-            "hardwareTags": [
-              "PRD_TAG-V4",
-              "PRD_TAG-V3",
-              "PRD_TAG-V2"
-            ]
+            "hardwareTags": ["PRD_TAG-V4", "PRD_TAG-V3", "PRD_TAG-V2"]
           }
         ],
         "dataBlocks": []
@@ -2542,10 +2514,10 @@
             "hardwareTag": "PRD_TAG-V4"
           },
           {
-            "description": "Starlink Standard Kit (12-Month)",
+            "description": "Starlink Mini Kit",
             "imageId": "{\"Shop_500x500\":\"public-files/Starlink_Standard_Hero_500x500.png\",\"Order_background\":\"public-files/starlink_standard_hero_order.jpg\",\"Account_orderdetail\":\"public-files/Starlink_Standard_Hero_500x500.png\",\"Shop_1100x620\":\"public-files/starlink_standard_hero_1100x620.png\",\"Order_feature_image\":\"public-files/starlink_standard_order_product_feature.jpg\"}",
             "productId": "fi-consumer-starlink-kit-gen3-12-month-term",
-            "price": 0.0,
+            "price": 225.0,
             "hardwareTag": "PRD_TAG-V4"
           }
         ],
@@ -2581,11 +2553,7 @@
               "price": 229.0,
               "hardwareTag": "PRD_TAG-V4"
             },
-            "hardwareTags": [
-              "PRD_TAG-V4",
-              "PRD_TAG-V3",
-              "PRD_TAG-V2"
-            ]
+            "hardwareTags": ["PRD_TAG-V4", "PRD_TAG-V3", "PRD_TAG-V2"]
           }
         ],
         "dataBlocks": []
@@ -2703,11 +2671,7 @@
               "price": 349.0,
               "hardwareTag": "PRD_TAG-V4"
             },
-            "hardwareTags": [
-              "PRD_TAG-V4",
-              "PRD_TAG-V3",
-              "PRD_TAG-V2"
-            ]
+            "hardwareTags": ["PRD_TAG-V4", "PRD_TAG-V3", "PRD_TAG-V2"]
           }
         ],
         "dataBlocks": []
@@ -3005,11 +2969,7 @@
               "price": 349.0,
               "hardwareTag": "PRD_TAG-V4"
             },
-            "hardwareTags": [
-              "PRD_TAG-V4",
-              "PRD_TAG-V3",
-              "PRD_TAG-V2"
-            ]
+            "hardwareTags": ["PRD_TAG-V4", "PRD_TAG-V3", "PRD_TAG-V2"]
           }
         ],
         "dataBlocks": []
@@ -3380,11 +3340,7 @@
               "price": 549.0,
               "hardwareTag": "PRD_TAG-V4"
             },
-            "hardwareTags": [
-              "PRD_TAG-V4",
-              "PRD_TAG-V3",
-              "PRD_TAG-V2"
-            ]
+            "hardwareTags": ["PRD_TAG-V4", "PRD_TAG-V3", "PRD_TAG-V2"]
           }
         ],
         "dataBlocks": []
@@ -3532,10 +3488,10 @@
             "hardwareTag": "PRD_TAG-V4"
           },
           {
-            "description": "Starlink Standard Kit (12-Month)",
+            "description": "Starlink Mini Kit",
             "imageId": "{\"Shop_500x500\":\"public-files/Starlink_Standard_Hero_500x500.png\",\"Order_background\":\"public-files/starlink_standard_hero_order.jpg\",\"Account_orderdetail\":\"public-files/Starlink_Standard_Hero_500x500.png\",\"Shop_1100x620\":\"public-files/starlink_standard_hero_1100x620.png\",\"Order_feature_image\":\"public-files/starlink_standard_order_product_feature.jpg\"}",
             "productId": "is-consumer-starlink-kit-gen3-12-month-term",
-            "price": 0.0,
+            "price": 31999.0,
             "hardwareTag": "PRD_TAG-V4"
           }
         ],
@@ -3571,11 +3527,7 @@
               "price": 52500.0,
               "hardwareTag": "PRD_TAG-V4"
             },
-            "hardwareTags": [
-              "PRD_TAG-V4",
-              "PRD_TAG-V3",
-              "PRD_TAG-V2"
-            ]
+            "hardwareTags": ["PRD_TAG-V4", "PRD_TAG-V3", "PRD_TAG-V2"]
           }
         ],
         "dataBlocks": []
@@ -4734,6 +4686,13 @@
             "productId": "mk-consumer-starlink-kit-gen3",
             "price": 21500.0,
             "hardwareTag": "PRD_TAG-V4"
+          },
+          {
+            "description": "Starlink Mini Kit",
+            "imageId": "{\"Order_background\":\"public-files/starlink_mini_hero_order.jpg\",\"Shop_1100x620\":\"public-files/starlink_mini_hero_1100x620.jpg\",\"Shop_500x500\":\"public-files/Starlink_Mini_500x500.png\",\"Account_orderdetail\":\"public-files/starlink_mini_hero_1100x620.jpg\",\"Order_feature_image\":\"public-files/starlink_mini_order_product_feature.jpg\"}",
+            "productId": "is-consumer-starlink-kit-mini-roam",
+            "price": 13850.0,
+            "hardwareTag": "PRD_TAG-MINI1"
           }
         ],
         "subscriptions": [
@@ -4989,11 +4948,7 @@
               "price": 5999.0,
               "hardwareTag": "PRD_TAG-V4"
             },
-            "hardwareTags": [
-              "PRD_TAG-V4",
-              "PRD_TAG-V3",
-              "PRD_TAG-V2"
-            ]
+            "hardwareTags": ["PRD_TAG-V4", "PRD_TAG-V3", "PRD_TAG-V2"]
           }
         ],
         "dataBlocks": []
@@ -5166,11 +5121,7 @@
               "price": 349.0,
               "hardwareTag": "PRD_TAG-V4"
             },
-            "hardwareTags": [
-              "PRD_TAG-V4",
-              "PRD_TAG-V3",
-              "PRD_TAG-V2"
-            ]
+            "hardwareTags": ["PRD_TAG-V4", "PRD_TAG-V3", "PRD_TAG-V2"]
           }
         ],
         "dataBlocks": []
@@ -5350,11 +5301,7 @@
               "price": 389.0,
               "hardwareTag": "PRD_TAG-V4"
             },
-            "hardwareTags": [
-              "PRD_TAG-V4",
-              "PRD_TAG-V3",
-              "PRD_TAG-V2"
-            ]
+            "hardwareTags": ["PRD_TAG-V4", "PRD_TAG-V3", "PRD_TAG-V2"]
           }
         ],
         "dataBlocks": []
@@ -5912,11 +5859,7 @@
               "price": 549.0,
               "hardwareTag": "PRD_TAG-V4"
             },
-            "hardwareTags": [
-              "PRD_TAG-V4",
-              "PRD_TAG-V3",
-              "PRD_TAG-V2"
-            ]
+            "hardwareTags": ["PRD_TAG-V4", "PRD_TAG-V3", "PRD_TAG-V2"]
           }
         ],
         "dataBlocks": []
@@ -5995,10 +5938,10 @@
             "hardwareTag": "PRD_TAG-V4"
           },
           {
-            "description": "Starlink Standard Kit (12-Month)",
+            "description": "Starlink Mini Kit",
             "imageId": "{\"Shop_500x500\":\"public-files/Starlink_Standard_Hero_500x500.png\",\"Order_background\":\"public-files/starlink_standard_hero_order.jpg\",\"Account_orderdetail\":\"public-files/Starlink_Standard_Hero_500x500.png\",\"Shop_1100x620\":\"public-files/starlink_standard_hero_1100x620.png\",\"Order_feature_image\":\"public-files/starlink_standard_order_product_feature.jpg\"}",
             "productId": "no-consumer-starlink-kit-gen3-12-month-term",
-            "price": 0.0,
+            "price": 2659.0,
             "hardwareTag": "PRD_TAG-V4"
           }
         ],
@@ -6498,11 +6441,7 @@
               "price": 389.0,
               "hardwareTag": "PRD_TAG-V4"
             },
-            "hardwareTags": [
-              "PRD_TAG-V4",
-              "PRD_TAG-V3",
-              "PRD_TAG-V2"
-            ]
+            "hardwareTags": ["PRD_TAG-V4", "PRD_TAG-V3", "PRD_TAG-V2"]
           }
         ],
         "dataBlocks": []
@@ -6806,11 +6745,7 @@
               "price": 349.0,
               "hardwareTag": "PRD_TAG-V4"
             },
-            "hardwareTags": [
-              "PRD_TAG-V4",
-              "PRD_TAG-V3",
-              "PRD_TAG-V2"
-            ]
+            "hardwareTags": ["PRD_TAG-V4", "PRD_TAG-V3", "PRD_TAG-V2"]
           }
         ],
         "dataBlocks": []
@@ -6859,11 +6794,7 @@
               "price": 349.0,
               "hardwareTag": "PRD_TAG-V4"
             },
-            "hardwareTags": [
-              "PRD_TAG-V4",
-              "PRD_TAG-V3",
-              "PRD_TAG-V2"
-            ]
+            "hardwareTags": ["PRD_TAG-V4", "PRD_TAG-V3", "PRD_TAG-V2"]
           }
         ],
         "dataBlocks": []
@@ -6974,11 +6905,7 @@
               "price": 999.0,
               "hardwareTag": "PRD_TAG-V4"
             },
-            "hardwareTags": [
-              "PRD_TAG-V4",
-              "PRD_TAG-V3",
-              "PRD_TAG-V2"
-            ]
+            "hardwareTags": ["PRD_TAG-V4", "PRD_TAG-V3", "PRD_TAG-V2"]
           }
         ],
         "dataBlocks": []
@@ -7338,11 +7265,7 @@
               "price": 3199.0,
               "hardwareTag": "PRD_TAG-V4"
             },
-            "hardwareTags": [
-              "PRD_TAG-V4",
-              "PRD_TAG-V3",
-              "PRD_TAG-V2"
-            ]
+            "hardwareTags": ["PRD_TAG-V4", "PRD_TAG-V3", "PRD_TAG-V2"]
           }
         ],
         "dataBlocks": []
@@ -7550,6 +7473,13 @@
             "productId": "sj-consumer-starlink-kit-gen3",
             "price": 4000.0,
             "hardwareTag": "PRD_TAG-V4"
+          },
+          {
+            "description": "Starlink Mini Kit",
+            "imageId": "{\"Order_background\":\"public-files/starlink_mini_hero_order.jpg\",\"Shop_1100x620\":\"public-files/starlink_mini_hero_1100x620.jpg\",\"Shop_500x500\":\"public-files/Starlink_Mini_500x500.png\",\"Account_orderdetail\":\"public-files/starlink_mini_hero_1100x620.jpg\",\"Order_feature_image\":\"public-files/starlink_mini_order_product_feature.jpg\"}",
+            "productId": "is-consumer-starlink-kit-mini-roam",
+            "price": 4500.0,
+            "hardwareTag": "PRD_TAG-MINI1"
           }
         ],
         "subscriptions": [
@@ -7584,11 +7514,7 @@
               "price": 4000.0,
               "hardwareTag": "PRD_TAG-V4"
             },
-            "hardwareTags": [
-              "PRD_TAG-V4",
-              "PRD_TAG-V3",
-              "PRD_TAG-V2"
-            ]
+            "hardwareTags": ["PRD_TAG-V4", "PRD_TAG-V3", "PRD_TAG-V2"]
           }
         ],
         "dataBlocks": []
@@ -7605,10 +7531,10 @@
             "hardwareTag": "PRD_TAG-V4"
           },
           {
-            "description": "Starlink Standard Kit (12-Month)",
+            "description": "Starlink Mini Kit",
             "imageId": "{\"Shop_500x500\":\"public-files/Starlink_Standard_Hero_500x500.png\",\"Order_background\":\"public-files/starlink_standard_hero_order.jpg\",\"Account_orderdetail\":\"public-files/Starlink_Standard_Hero_500x500.png\",\"Shop_1100x620\":\"public-files/starlink_standard_hero_1100x620.png\",\"Order_feature_image\":\"public-files/starlink_standard_order_product_feature.jpg\"}",
             "productId": "se-consumer-starlink-kit-gen3-12-month-term",
-            "price": 0.0,
+            "price": 2489.0,
             "hardwareTag": "PRD_TAG-V4"
           }
         ],
@@ -7644,11 +7570,7 @@
               "price": 2680.0,
               "hardwareTag": "PRD_TAG-V4"
             },
-            "hardwareTags": [
-              "PRD_TAG-V4",
-              "PRD_TAG-V3",
-              "PRD_TAG-V2"
-            ]
+            "hardwareTags": ["PRD_TAG-V4", "PRD_TAG-V3", "PRD_TAG-V2"]
           }
         ],
         "dataBlocks": []
@@ -7857,11 +7779,7 @@
               "price": 2599.0,
               "hardwareTag": "PRD_TAG-V4"
             },
-            "hardwareTags": [
-              "PRD_TAG-V4",
-              "PRD_TAG-V3",
-              "PRD_TAG-V2"
-            ]
+            "hardwareTags": ["PRD_TAG-V4", "PRD_TAG-V3", "PRD_TAG-V2"]
           }
         ],
         "dataBlocks": []
@@ -7991,11 +7909,7 @@
               "price": 389.0,
               "hardwareTag": "PRD_TAG-V4"
             },
-            "hardwareTags": [
-              "PRD_TAG-V4",
-              "PRD_TAG-V3",
-              "PRD_TAG-V2"
-            ]
+            "hardwareTags": ["PRD_TAG-V4", "PRD_TAG-V3", "PRD_TAG-V2"]
           }
         ],
         "dataBlocks": []
@@ -8191,11 +8105,7 @@
               "price": 349.0,
               "hardwareTag": "PRD_TAG-V4"
             },
-            "hardwareTags": [
-              "PRD_TAG-V4",
-              "PRD_TAG-V3",
-              "PRD_TAG-V2"
-            ]
+            "hardwareTags": ["PRD_TAG-V4", "PRD_TAG-V3", "PRD_TAG-V2"]
           }
         ],
         "dataBlocks": []
@@ -27225,9 +27135,7 @@
               "price": 599.0,
               "hardwareTag": "PRD_TAG-MINI1"
             },
-            "hardwareTags": [
-              "PRD_TAG-MINI1"
-            ]
+            "hardwareTags": ["PRD_TAG-MINI1"]
           }
         ],
         "dataBlocks": []
@@ -34398,9 +34306,7 @@
               "price": 499.0,
               "hardwareTag": "PRD_TAG-MINI1"
             },
-            "hardwareTags": [
-              "PRD_TAG-MINI1"
-            ]
+            "hardwareTags": ["PRD_TAG-MINI1"]
           },
           {
             "description": "Roam - Unlimited",
