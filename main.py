@@ -1,4 +1,5 @@
 import json
+import requests
 
 # ISO2 коди європейських країн + UA
 europe_codes = [
@@ -9,23 +10,37 @@ europe_codes = [
 ]
 
 country_names = {
-    "AL": "Albania", "AD": "Andorra", "AT": "Austria", "BY": "Belarus",
-    "BE": "Belgium", "BA": "Bosnia and Herzegovina", "BG": "Bulgaria",
+    "AL": "Albania", "AT": "Austria", "BE": "Belgium", "BG": "Bulgaria",
     "HR": "Croatia", "CY": "Cyprus", "CZ": "Czechia", "DK": "Denmark",
     "EE": "Estonia", "FO": "Faroe Islands", "FI": "Finland", "FR": "France",
-    "DE": "Germany", "GI": "Gibraltar", "GR": "Greece", "VA": "Vatican City",
-    "HU": "Hungary", "IS": "Iceland", "IE": "Ireland", "IT": "Italy",
+    "DE": "Germany", "GR": "Greece", "HU": "Hungary", "IS": "Iceland", "IE": "Ireland", "IT": "Italy",
     "XK": "Kosovo", "LV": "Latvia", "LI": "Liechtenstein", "LT": "Lithuania",
-    "LU": "Luxembourg", "MT": "Malta", "MD": "Moldova", "MC": "Monaco",
-    "ME": "Montenegro", "NL": "Netherlands", "MK": "North Macedonia",
+    "LU": "Luxembourg", "MT": "Malta", "MD": "Moldova",
+    "NL": "Netherlands", "MK": "North Macedonia",
     "NO": "Norway", "PL": "Poland", "PT": "Portugal", "RO": "Romania",
-    "RU": "Russia", "SM": "San Marino", "RS": "Serbia", "SK": "Slovakia",
+     "SK": "Slovakia",
     "SI": "Slovenia", "ES": "Spain", "SJ": "Svalbard and Jan Mayen",
     "SE": "Sweden", "CH": "Switzerland", "UA": "Ukraine", "GB": "United Kingdom"
 }
 
+# Мапування коду країни на код валюти
+# Валюти, які не є EUR, але для яких може знадобитися конвертація
+country_to_currency = {
+    "AL": "ALL", "AZ": "AZN", "BG": "BGN", "CH": "CHF", "CZ": "CZK",
+    "DK": "DKK","FO": "DKK", "GB": "GBP", "HU": "HUF","IS":"ISK", "MD": "MDL","MK":"MKD", "NO": "NOK", "PL": "PLN", "RO": "RON","SJ":"NOK", "SE": "SEK", "UA": "USD"
+}
+
+# Країни Єврозони (використовують EUR)
+euro_zone_countries = [
+    'AT', 'BE', 'CY', 'EE', 'FI', 'FR', 'DE', 'GR', 'IE', 'IT', 'LV', 'LT',
+    'LU', 'MT', 'NL', 'PT', 'SK', 'SI', 'XK'
+]
+
+for code in euro_zone_countries:
+    if code not in country_to_currency:
+        country_to_currency[code] = 'EUR'
+
 # Завантаження JSON-даних
-# Примітка: Цей скрипт очікує файл 'landing-prices.json' у тому ж каталозі.
 try:
     with open('landing-prices.json', 'r', encoding='utf-8') as f:
         json_data = json.load(f)
@@ -36,31 +51,73 @@ except json.JSONDecodeError:
     print("Помилка: Не вдалося розібрати 'landing-prices.json'. Переконайтеся, що це дійсний JSON-файл.")
     exit()
 
+# --- Отримання курсів валют ---
+exchange_rates = {}
+# !!! ЗАМІНІТЬ 'YOUR_API_KEY_HERE' НА ВАШ АКТУАЛЬНИЙ API-КЛЮЧ З ExchangeRate-API.com !!!
+API_KEY = "5367321dfae0db753504e8c2" # Ваш API-ключ
+BASE_CURRENCY = "EUR" # Базова валюта для конвертації
+
+try:
+    response = requests.get(f"https://v6.exchangerate-api.com/v6/{API_KEY}/latest/{BASE_CURRENCY}")
+    response.raise_for_status()  # Викличе HTTPError для поганих відповідей (4xx або 5xx)
+    data = response.json()
+    if data['result'] == 'success':
+        exchange_rates = data['conversion_rates']
+        exchange_rates['EUR'] = 1.0 # Додаємо EUR з курсом 1.0
+        print("Курси валют успішно завантажено.")
+    else:
+        print(f"Помилка API під час отримання курсів: {data.get('error-type', 'Невідома помилка')}")
+        print("Будуть використані ціни як вони є в JSON (припускається, що в EUR, якщо не вказано інше).")
+except requests.exceptions.RequestException as e:
+    print(f"Помилка запиту до API обміну валют: {e}")
+    print("Будуть використані ціни як вони є в JSON (припускається, що в EUR, якщо не вказано інше).")
+except json.JSONDecodeError:
+    print("Помилка при розборі відповіді JSON від API обміну валют.")
+    print("Будуть використані ціни як вони є в JSON (припускається, що в EUR, якщо не вказано інше).")
+
 unique = {}
 
 for block in json_data:
-    for country in block.get('countries', []): # Додано .get() для безпеки
+    for country in block.get('countries', []):
         code = country.get('regionCode', '')
         if code not in europe_codes:
             continue
 
         name = country.get('regionName') or country_names.get(code, code)
-        mini_price = None
-        standard_price = None
+        mini_price_eur = None
+        standard_price_eur = None
+        
+        # Визначаємо вихідну валюту для країни
+        original_currency = country_to_currency.get(code, 'EUR') # За замовчуванням EUR, якщо не знайдено
 
-        for kit in country.get('kits', []): # Додано .get() для безпеки
+        for kit in country.get('kits', []):
             desc = kit.get('description', '').lower()
             price = kit.get('price', None)
-            if "mini" in desc and mini_price is None:
-                mini_price = price
-            elif "standard" in desc and standard_price is None:
-                standard_price = price
+            
+            if price is not None:
+                # Конвертуємо ціну в EUR, якщо вона в іншій валюті
+                if original_currency != 'EUR' and original_currency in exchange_rates:
+                    # Для конвертації з іншої валюти в EUR, ділимо на курс цієї валюти відносно EUR
+                    # Перевіряємо, щоб курс не був нульовим, щоб уникнути помилки ділення на нуль
+                    if exchange_rates.get(original_currency, 0) != 0:
+                        price_in_eur = round(price / exchange_rates[original_currency], 2)
+                    else:
+                        price_in_eur = price # Залишаємо оригінальну ціну, якщо курс 0 (проблемний)
+                else:
+                    price_in_eur = price # Якщо вже EUR або немає курсу в словнику
+            else:
+                price_in_eur = None
+
+            if "mini" in desc and mini_price_eur is None:
+                mini_price_eur = price_in_eur
+            elif "standard" in desc and standard_price_eur is None:
+                standard_price_eur = price_in_eur
 
         if code and code not in unique:
             unique[code] = {
                 'name': name,
-                'mini': mini_price,
-                'standard': standard_price
+                'mini': mini_price_eur,
+                'standard': standard_price_eur
             }
 
 # Формування HTML-рядків для таблиці
@@ -221,7 +278,7 @@ html = f"""
     async function fetchExchangeRates() {{
       try {{
         // Звернення до API ExchangeRate-API.com
-        const response = await fetch('https://v6.exchangerate-api.com/v6/5367321dfae0db753504e8c2/latest/EUR');
+        const response = await fetch('https://v6.exchangerate-api.com/v6/{API_KEY}/latest/EUR');
         if (!response.ok) {{
           // Обробка помилок HTTP (наприклад, 404, 500)
           throw new Error(`HTTP error! Status: ${{response.status}}, Message: ${{response.statusText}}`);
@@ -236,7 +293,6 @@ html = f"""
         // Ініціалізуємо об'єкт з курсами, встановлюючи EUR як 1
         let fetchedRates = {{ 'EUR': 1 }};
 
-        // !!! ВИПРАВЛЕНО: Змінено data.rates на data.conversion_rates !!!
         if (data.conversion_rates) {{
           fetchedRates['USD'] = data.conversion_rates.USD;
           fetchedRates['GBP'] = data.conversion_rates.GBP;
@@ -291,7 +347,6 @@ html = f"""
 
         if (eurPrice && !isNaN(parsedEurPrice)) {{ // Перевірка, чи існує оригінальна ціна в EUR і чи є вона числом
           // Оскільки 'rate' тепер завжди визначений (або з API, або 1), можемо конвертувати безпосередньо
-          // ВИПРАВЛЕНО: Використання parseFloat для видалення зайвих нулів
           const convertedPrice = (parsedEurPrice * rate).toFixed(2);
           cell.textContent = `${{convertedPrice}} ${{currency}}`; // Оновлення тексту комірки
         }} else {{
@@ -312,4 +367,4 @@ html = f"""
 with open("index.html", "w", encoding="utf-8") as f:
     f.write(html)
 
-print("Готово! Файл index.html створено з валідним API-ключем і виправленням змінної.")
+print("Готово! Файл index.html створено з виправленнями синтаксису f-string та конвертацією цін у EUR на стороні Python.")
