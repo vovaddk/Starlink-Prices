@@ -292,7 +292,7 @@ html = f"""
         if (eurPrice && !isNaN(parsedEurPrice)) {{ // Перевірка, чи існує оригінальна ціна в EUR і чи є вона числом
           // Оскільки 'rate' тепер завжди визначений (або з API, або 1), можемо конвертувати безпосередньо
           // ВИПРАВЛЕНО: Використання parseFloat для видалення зайвих нулів
-          const convertedPrice = parseFloat((parsedEurPrice * rate).toFixed(2));
+          const convertedPrice = (parsedEurPrice * rate).toFixed(2);
           cell.textContent = `${{convertedPrice}} ${{currency}}`; // Оновлення тексту комірки
         }} else {{
           // Якщо оригінальної ціни в EUR немає, залишаємо комірку порожньою
