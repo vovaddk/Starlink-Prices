@@ -8,57 +8,20 @@ europe_codes = [
     'RU', 'SM', 'RS', 'SK', 'SI', 'ES', 'SJ', 'SE', 'CH', 'UA', 'GB'
 ]
 
-# Мапа кодів у повні англійські назви (заповнюй під свої потреби)
 country_names = {
-    "AL": "Albania",
-    "AD": "Andorra",
-    "AT": "Austria",
-    "BY": "Belarus",
-    "BE": "Belgium",
-    "BA": "Bosnia and Herzegovina",
-    "BG": "Bulgaria",
-    "HR": "Croatia",
-    "CY": "Cyprus",
-    "CZ": "Czechia",
-    "DK": "Denmark",
-    "EE": "Estonia",
-    "FO": "Faroe Islands",
-    "FI": "Finland",
-    "FR": "France",
-    "DE": "Germany",
-    "GI": "Gibraltar",
-    "GR": "Greece",
-    "VA": "Vatican City",
-    "HU": "Hungary",
-    "IS": "Iceland",
-    "IE": "Ireland",
-    "IT": "Italy",
-    "XK": "Kosovo",
-    "LV": "Latvia",
-    "LI": "Liechtenstein",
-    "LT": "Lithuania",
-    "LU": "Luxembourg",
-    "MT": "Malta",
-    "MD": "Moldova",
-    "MC": "Monaco",
-    "ME": "Montenegro",
-    "NL": "Netherlands",
-    "MK": "North Macedonia",
-    "NO": "Norway",
-    "PL": "Poland",
-    "PT": "Portugal",
-    "RO": "Romania",
-    "RU": "Russia",
-    "SM": "San Marino",
-    "RS": "Serbia",
-    "SK": "Slovakia",
-    "SI": "Slovenia",
-    "ES": "Spain",
-    "SJ": "Svalbard and Jan Mayen",
-    "SE": "Sweden",
-    "CH": "Switzerland",
-    "UA": "Ukraine",
-    "GB": "United Kingdom"
+    "AL": "Albania", "AD": "Andorra", "AT": "Austria", "BY": "Belarus",
+    "BE": "Belgium", "BA": "Bosnia and Herzegovina", "BG": "Bulgaria",
+    "HR": "Croatia", "CY": "Cyprus", "CZ": "Czechia", "DK": "Denmark",
+    "EE": "Estonia", "FO": "Faroe Islands", "FI": "Finland", "FR": "France",
+    "DE": "Germany", "GI": "Gibraltar", "GR": "Greece", "VA": "Vatican City",
+    "HU": "Hungary", "IS": "Iceland", "IE": "Ireland", "IT": "Italy",
+    "XK": "Kosovo", "LV": "Latvia", "LI": "Liechtenstein", "LT": "Lithuania",
+    "LU": "Luxembourg", "MT": "Malta", "MD": "Moldova", "MC": "Monaco",
+    "ME": "Montenegro", "NL": "Netherlands", "MK": "North Macedonia",
+    "NO": "Norway", "PL": "Poland", "PT": "Portugal", "RO": "Romania",
+    "RU": "Russia", "SM": "San Marino", "RS": "Serbia", "SK": "Slovakia",
+    "SI": "Slovenia", "ES": "Spain", "SJ": "Svalbard and Jan Mayen",
+    "SE": "Sweden", "CH": "Switzerland", "UA": "Ukraine", "GB": "United Kingdom"
 }
 
 with open('landing-prices.json', 'r', encoding='utf-8') as f:
@@ -69,7 +32,6 @@ unique = {}
 for block in data:
     for country in block['countries']:
         code = country.get('regionCode', '')
-        # Тільки потрібні країни
         if code not in europe_codes:
             continue
 
@@ -88,9 +50,13 @@ for block in data:
         if code and code not in unique:
             unique[code] = {'name': name, 'mini': mini_price, 'standard': standard_price}
 
-# Генеруємо HTML
+# -- Адаптивні рядки (data-label для mobile) --
 rows = [
-    f"<tr><td>{data['name']}</td><td>{data['mini'] if data['mini'] is not None else ''}</td><td>{data['standard'] if data['standard'] is not None else ''}</td></tr>"
+    f"""<tr>
+        <td data-label="Country">{data['name']}</td>
+        <td data-label="Mini Price">{data['mini'] if data['mini'] is not None else ''}</td>
+        <td data-label="Standard Price">{data['standard'] if data['standard'] is not None else ''}</td>
+    </tr>"""
     for code, data in sorted(unique.items(), key=lambda x: x[1]['name'])
 ]
 
@@ -100,13 +66,76 @@ html = f"""
 <head>
   <meta charset="UTF-8">
   <title>Starlink Prices — Europe & Ukraine</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {{ font-family: 'Segoe UI', Arial, sans-serif; background: #181818; color: #eee; margin: 0; padding: 40px; }}
-    table {{ border-collapse: collapse; width: 100%; max-width: 800px; margin: auto; background: #23272a; }}
-    th, td {{ padding: 10px 14px; border-bottom: 1px solid #36393e; text-align: center; }}
-    th {{ background: #23272a; color: #f9d923; font-size: 1.08em; }}
+    body {{
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #181818;
+      color: #eee;
+      margin: 0;
+      padding: 40px;
+    }}
+    h1 {{
+      text-align: center;
+    }}
+    table {{
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 800px;
+      margin: auto;
+      background: #23272a;
+    }}
+    th, td {{
+      padding: 10px 14px;
+      border-bottom: 1px solid #36393e;
+      text-align: center;
+    }}
+    th {{
+      background: #23272a;
+      color: #f9d923;
+      font-size: 1.08em;
+    }}
     tr:nth-child(even) {{ background: #202225; }}
     tr:hover {{ background: #292b2f; }}
+
+    /* --- Адаптивність --- */
+    @media (max-width: 600px) {{
+      body {{
+        padding: 6px;
+      }}
+      h1 {{
+        font-size: 1.22em;
+        margin-bottom: 14px;
+      }}
+      table, thead, tbody, th, td, tr {{
+        display: block;
+        width: 100%;
+      }}
+      thead {{
+        display: none;
+      }}
+      tr {{
+        margin-bottom: 12px;
+        background: #23272a;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.14);
+        padding: 8px 0 8px 0;
+      }}
+      td {{
+        text-align: left;
+        padding: 8px 12px;
+        border: none;
+        position: relative;
+        font-size: 1em;
+      }}
+      td:before {{
+        content: attr(data-label);
+        font-weight: bold;
+        color: #f9d923;
+        display: block;
+        margin-bottom: 4px;
+      }}
+    }}
   </style>
 </head>
 <body>
