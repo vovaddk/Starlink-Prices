@@ -273,13 +273,13 @@ html = f"""
       }}
       
       .control-group {{ 
-        width: 100%; 
+         
         min-width: unset; 
-        align-items: stretch; 
+        
       }}
       
       input[type="text"], select {{ 
-        max-width: 100%; 
+         
         padding: 14px; 
       }}
       
