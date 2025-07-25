@@ -25,13 +25,21 @@ country_names = {
 }
 
 # Завантаження JSON-даних
-with open('landing-prices.json', 'r', encoding='utf-8') as f:
-    json_data = json.load(f)
+# Примітка: Цей скрипт очікує файл 'landing-prices.json' у тому ж каталозі.
+try:
+    with open('landing-prices.json', 'r', encoding='utf-8') as f:
+        json_data = json.load(f)
+except FileNotFoundError:
+    print("Помилка: Файл 'landing-prices.json' не знайдено. Будь ласка, переконайтеся, що він знаходиться в тому ж каталозі, що й цей скрипт.")
+    exit()
+except json.JSONDecodeError:
+    print("Помилка: Не вдалося розібрати 'landing-prices.json'. Переконайтеся, що це дійсний JSON-файл.")
+    exit()
 
 unique = {}
 
 for block in json_data:
-    for country in block['countries']:
+    for country in block.get('countries', []): # Додано .get() для безпеки
         code = country.get('regionCode', '')
         if code not in europe_codes:
             continue
@@ -40,7 +48,7 @@ for block in json_data:
         mini_price = None
         standard_price = None
 
-        for kit in country.get('kits', []):
+        for kit in country.get('kits', []): # Додано .get() для безпеки
             desc = kit.get('description', '').lower()
             price = kit.get('price', None)
             if "mini" in desc and mini_price is None:
@@ -55,17 +63,17 @@ for block in json_data:
                 'standard': standard_price
             }
 
-# -- Формування HTML-рядків для таблиці (!!! тут і була помилка!!!)
+# Формування HTML-рядків для таблиці
 rows = [
     f"""<tr>
         <td data-label="Country">{item['name']}</td>
-        <td data-label="Mini Price" class="price" data-eur="{item['mini'] or ''}">{item['mini'] if item['mini'] is not None else ''}</td>
-        <td data-label="Standard Price" class="price" data-eur="{item['standard'] or ''}">{item['standard'] if item['standard'] is not None else ''}</td>
+        <td data-label="Mini Price" class="price" data-eur="{item['mini'] if item['mini'] is not None else ''}">{item['mini'] if item['mini'] is not None else ''}</td>
+        <td data-label="Standard Price" class="price" data-eur="{item['standard'] if item['standard'] is not None else ''}">{item['standard'] if item['standard'] is not None else ''}</td>
     </tr>"""
     for code, item in sorted(unique.items(), key=lambda x: x[1]['name'])
 ]
 
-# -- Основний HTML
+# Основний HTML-код
 html = f"""
 <!DOCTYPE html>
 <html lang="en">
@@ -109,6 +117,8 @@ html = f"""
       max-width: 800px;
       margin: auto;
       background: #23272a;
+      border-radius: 10px; /* Додано округлення кутів таблиці */
+      overflow: hidden; /* Щоб округлення застосовувалося до вмісту */
     }}
     th, td {{
       padding: 10px 14px;
@@ -204,75 +214,101 @@ html = f"""
     </tbody>
   </table>
   <script>
-    // Початкові фіктивні курси (як резервні)
-    let exchangeRates = {{
-      'EUR': 1,
-      'USD': 1.09,
-      'GBP': 0.85,
-      'UAH': 45.0,
-      'PLN': 4.30,
-      'CZK': 25.4,
-      'SEK': 11.5,
-      'DKK': 7.46,
-      'NOK': 11.8,
-      'CHF': 0.95
-    }};
+    // Ініціалізація об'єкта для зберігання курсів обміну. Спочатку порожній, курси будуть завантажені з API.
+    let exchangeRates = {{}};
 
+    // Асинхронна функція для отримання курсів обміну з API
     async function fetchExchangeRates() {{
       try {{
+        // Звернення до API ExchangeRate-API.com
         const response = await fetch('https://v6.exchangerate-api.com/v6/5367321dfae0db753504e8c2/latest/EUR');
         if (!response.ok) {{
+          // Обробка помилок HTTP (наприклад, 404, 500)
           throw new Error(`HTTP error! Status: ${{response.status}}, Message: ${{response.statusText}}`);
         }}
         const data = await response.json();
         if (data.result === 'error') {{
+          // Обробка помилок, повернутих самим API (наприклад, недійсний ключ)
           throw new Error(`API error: ${{data['error-type']}}`);
         }}
-        console.log('API response:', data); // Логування повної відповіді API
-        return {{
-          'EUR': 1,
-          'USD': data.rates.USD || exchangeRates.USD,
-          'GBP': data.rates.GBP || exchangeRates.GBP,
-          'UAH': data.rates.UAH || exchangeRates.UAH,
-          'PLN': data.rates.PLN || exchangeRates.PLN,
-          'CZK': data.rates.CZK || exchangeRates.CZK,
-          'SEK': data.rates.SEK || exchangeRates.SEK,
-          'DKK': data.rates.DKK || exchangeRates.DKK,
-          'NOK': data.rates.NOK || exchangeRates.NOK,
-          'CHF': data.rates.CHF || exchangeRates.CHF
-        }};
+        console.log('API full response:', data); // Логування повної відповіді API для налагодження
+
+        // Ініціалізуємо об'єкт з курсами, встановлюючи EUR як 1
+        let fetchedRates = {{ 'EUR': 1 }};
+
+        // !!! ВИПРАВЛЕНО: Змінено data.rates на data.conversion_rates !!!
+        if (data.conversion_rates) {{
+          fetchedRates['USD'] = data.conversion_rates.USD;
+          fetchedRates['GBP'] = data.conversion_rates.GBP;
+          fetchedRates['UAH'] = data.conversion_rates.UAH;
+          fetchedRates['PLN'] = data.conversion_rates.PLN;
+          fetchedRates['CZK'] = data.conversion_rates.CZK;
+          fetchedRates['SEK'] = data.conversion_rates.SEK;
+          fetchedRates['DKK'] = data.conversion_rates.DKK;
+          fetchedRates['NOK'] = data.conversion_rates.NOK;
+          fetchedRates['CHF'] = data.conversion_rates.CHF;
+        }}
+
+        // Переконуємося, що всі очікувані валюти мають значення,
+        // за замовчуванням встановлюємо 1, якщо API не надало курс
+        const allCurrencies = ['EUR', 'USD', 'GBP', 'UAH', 'PLN', 'CZK', 'SEK', 'DKK', 'NOK', 'CHF'];
+        allCurrencies.forEach(curr => {{
+            if (fetchedRates[curr] === undefined) {{
+                fetchedRates[curr] = 1; // За замовчуванням 1 (еквівалент EUR)
+            }}
+        }});
+
+        return fetchedRates;
       }} catch (error) {{
+        // Перехоплення будь-яких помилок під час виконання fetch або обробки JSON
         console.error('Error fetching exchange rates:', error.message);
+        // Відображення повідомлення про помилку користувачеві
         document.getElementById('error-message').style.display = 'block';
-        return exchangeRates;
+        // У разі помилки повертаємо об'єкт, де всі курси дорівнюють 1 (фактично EUR)
+        return {{
+          'EUR': 1, 'USD': 1, 'GBP': 1, 'UAH': 1, 'PLN': 1, 'CZK': 1,
+          'SEK': 1, 'DKK': 1, 'NOK': 1, 'CHF': 1
+        }};
       }}
     }}
 
+    // Функція для конвертації та відображення цін
     async function convertCurrency() {{
       const currency = document.getElementById('currency').value;
-      const rates = await fetchExchangeRates();
-      console.log('Using exchange rates:', rates); // Логування курсів, які використовуються
-      const rate = rates[currency];
-      const prices = document.querySelectorAll('.price');
+      // Очікування отримання актуальних курсів обміну
+      exchangeRates = await fetchExchangeRates();
+      console.log('Using exchange rates:', exchangeRates); // Логування курсів, які використовуються
+
+      const rate = exchangeRates[currency]; // Отримання курсу для обраної валюти
+      const prices = document.querySelectorAll('.price'); // Вибір усіх елементів з класом 'price'
+
+      // Приховуємо повідомлення про помилку на початку кожної спроби конвертації
+      document.getElementById('error-message').style.display = 'none';
 
       prices.forEach(cell => {{
-        const eurPrice = cell.getAttribute('data-eur');
-        if (eurPrice && !isNaN(parseFloat(eurPrice))) {{
-          const convertedPrice = (parseFloat(eurPrice) * rate).toFixed(2);
-          cell.textContent = `${{convertedPrice}} ${{currency}}`;
+        const eurPrice = cell.getAttribute('data-eur'); // Отримання оригінальної ціни в EUR
+        const parsedEurPrice = parseFloat(eurPrice);
+
+        if (eurPrice && !isNaN(parsedEurPrice)) {{ // Перевірка, чи існує оригінальна ціна в EUR і чи є вона числом
+          // Оскільки 'rate' тепер завжди визначений (або з API, або 1), можемо конвертувати безпосередньо
+          // ВИПРАВЛЕНО: Використання parseFloat для видалення зайвих нулів
+          const convertedPrice = parseFloat((parsedEurPrice * rate).toFixed(2));
+          cell.textContent = `${{convertedPrice}} ${{currency}}`; // Оновлення тексту комірки
         }} else {{
+          // Якщо оригінальної ціни в EUR немає, залишаємо комірку порожньою
           cell.textContent = '';
         }}
       }});
     }}
 
-    // Викликати конвертацію при завантаженні сторінки
+    // Викликати конвертацію при завантаженні сторінки, щоб відобразити ціни з самого початку
     convertCurrency();
   </script>
 </body>
 </html>
 """
 
+# Запис згенерованого HTML у файл index.html
 with open("index.html", "w", encoding="utf-8") as f:
     f.write(html)
 
