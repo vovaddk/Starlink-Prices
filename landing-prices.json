@@ -7661,14 +7661,14 @@
             "description": "Standard Actuated",
             "imageId": "{\"Order_background\":\"public-files/Module_1.jpg\",\"Account_orderdetail\":\"public-files/Starlink_Rectangular_500x500.png\",\"Shop_500x500\":\"public-files/Starlink_Rectangular_500x500.png\",\"Shop_1100x620\":\"public-files/Starlink_Rectangular_1100x620.png\",\"Order_feature_image\":\"public-files/starlink_actuated_standard_order_product_feature.jpg\"}",
             "productId": "ch-consumer-starlink-kit-gen2",
-            "price": 189.0,
+            "price": 329.0,
             "hardwareTag": "PRD_TAG-V3"
           },
           {
             "description": "INTERNET KIT, STARLINK STANDARD",
             "imageId": "{\"Shop_500x500\":\"public-files/Starlink_Standard_Hero_500x500.png\",\"Order_background\":\"public-files/starlink_standard_hero_order.jpg\",\"Account_orderdetail\":\"public-files/Starlink_Standard_Hero_500x500.png\",\"Shop_1100x620\":\"public-files/starlink_standard_hero_1100x620.png\",\"Order_feature_image\":\"public-files/starlink_standard_order_product_feature.jpg\"}",
             "productId": "ch-consumer-starlink-kit-gen3",
-            "price": 329.0,
+            "price": 0.0,
             "hardwareTag": "PRD_TAG-V4"
           },
           {
@@ -7682,7 +7682,7 @@
             "description": "Starlink Mini + Gen 3 Router Bundle (12-Month)",
             "imageId": "{\"Order_background\":\"public-files/starlink_mini_hero_order.jpg\",\"Shop_1100x620\":\"public-files/starlink_mini_hero_1100x620.jpg\",\"Account_orderdetail\":\"public-files/starlink_mini_hero_1100x620.jpg\",\"Order_feature_image\":\"/public-files/starlink_mini_and_mesh_order_product_feature.jpg\",\"Shop_500x500\":\"public-files/Starlink_Mini_500x500.png\"}",
             "productId": "ch-consumer-starlink-kit-mini-gen3-mesh-bundle-12-month-term",
-            "price": 0.0,
+            "price": 231.0,
             "hardwareTag": "PRD_TAG-MINI1"
           }
         ],
